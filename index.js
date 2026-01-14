@@ -49,7 +49,13 @@ app.post ("/properties",async(req,res)=>{
   res.send (result)
 })
 
+// get Property
+app.get ("/api/properties/latest",async(req,res)=>{
 
+const result =await realstatecollection.find().sort({_id:1}) .limit(6).toArray()
+res.send(result)
+
+})
 
 
 
