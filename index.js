@@ -16,7 +16,7 @@ app.listen(PORT, () => {
 });
 // sourav
 // Rddi0hToDvrpCcQ4
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = "mongodb+srv://sourav:Rddi0hToDvrpCcQ4@mongopractice.2tbsahv.mongodb.net/?appName=MongoPractice";
 
 
@@ -56,7 +56,14 @@ const result =await realstatecollection.find().sort({_id:1}) .limit(6).toArray()
 res.send(result)
 
 })
-
+//  get property details
+app.get("/property/:id",async(req,res)=>{
+  const id =req.params.id;
+  const result = await realstatecollection.findOne({
+    _id:new ObjectId(id)
+  })
+  res.send(result)
+})
 
 
 
