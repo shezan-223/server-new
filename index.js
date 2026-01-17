@@ -66,6 +66,19 @@ app.get("/property/:id",async(req,res)=>{
 })
 
 
+// Middle ware
+const verifyToken =(req,res,next)=>{
+  const authHeader =req.headers.authorization;
+  if(!authHeader){
+    return res.status(401).send({message :"Unauthorized"})
+  }
+
+const token = authHeader.split(' ')[1];
+
+
+  
+}
+
 
 
 
