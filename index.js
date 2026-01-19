@@ -66,21 +66,56 @@ app.get("/property/:id",async(req,res)=>{
 })
 
 
-// Middle ware
-const verifyToken =(req,res,next)=>{
-  const authHeader =req.headers.authorization;
-  if(!authHeader){
-    return res.status(401).send({message :"Unauthorized"})
+// my property
+app.get("/my-properties",async(req,res)=>{
+  const email =req.query.email
+
+  if(!email){
+    return res.status(400).send({message:"Email is required"})
   }
-
-const token = authHeader.split(' ')[1];
-
-
+   
+  const result = await realstatecollection.find({email}).toArray()
+  res.send(result)
+if(error){
+  console.error()
+  res.status(401).send({message :"Server Error"})
   
 }
+} 
 
 
+)
 
+// property delete start
+app.delete("/api/property/:id",async(req,res)=>{
+  const id =req.params.id
+  const query ={_id :new ObjectId(id)}
+  const result =await realstatecollection.deleteOne(query)
+  res.send(result)
+})
+// property delete end
+
+// Update property 
+app.patch("/api/properties/:id",async(req,res) =>{
+  const id =req.params.id;
+  const filter ={_id : new ObjectId(id) }
+  const updatedDoc ={
+    $set :{
+    propertyNam:req.body.propertyName,
+    price:req.body.price,
+    description:req.body.description,
+    category:req.body.category,
+    location:req.body.location,
+    yourname:req.body.yourname
+  }
+  }
+  
+  const result =await realstatecollection.updateOne(filter,updatedDoc)
+  res.send(result);
+} 
+
+)
+// eto tuk kora hoyeche
 
 
 
