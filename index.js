@@ -87,11 +87,22 @@ if(error){
 )
 
 // property delete start
-app.delete("/api/property/:id",async(req,res)=>{
-  const id =req.params.id
+app.delete("/api/properties/:id",async(req,res)=>{
+ try{
+   const id =req.params.id
   const query ={_id :new ObjectId(id)}
   const result =await realstatecollection.deleteOne(query)
-  res.send(result)
+
+  if(result.deletedCount === 1){
+    res.send(result)
+  }
+  else{
+    res.status(404).send({message :"No property found"})
+  }
+ }
+   catch(error){
+    res.status(500).send({message : "invalid Id formate or server error"})
+   }
 })
 // property delete end
 
@@ -101,7 +112,7 @@ app.patch("/api/properties/:id",async(req,res) =>{
   const filter ={_id : new ObjectId(id) }
   const updatedDoc ={
     $set :{
-    propertyNam:req.body.propertyName,
+    propertyName:req.body.propertyName,
     price:req.body.price,
     description:req.body.description,
     category:req.body.category,
