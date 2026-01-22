@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express =require("express")
 const cors =require("cors")
 
@@ -17,7 +18,7 @@ app.listen(PORT, () => {
 // sourav
 // Rddi0hToDvrpCcQ4
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
-const uri = "mongodb+srv://sourav:Rddi0hToDvrpCcQ4@mongopractice.2tbsahv.mongodb.net/?appName=MongoPractice";
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@mongopractice.2tbsahv.mongodb.net/?appName=MongoPractice`;
 
 
 const client = new MongoClient(uri, {
@@ -86,6 +87,24 @@ if(error){
 
 )
 
+// all property start
+app.get("/api/allProperty",async(req,res)=>{
+ try{
+
+   const result =await realstatecollection.find().toArray()
+   return res.send(result)
+ }
+ catch(error){
+  res.status(500).send({message : "Error fetching properties "})
+
+ }
+})
+// all property end
+
+
+
+
+
 // property delete start
 app.delete("/api/properties/:id",async(req,res)=>{
  try{
@@ -126,7 +145,7 @@ app.patch("/api/properties/:id",async(req,res) =>{
 } 
 
 )
-// eto tuk kora hoyeche
+
 
 
 
