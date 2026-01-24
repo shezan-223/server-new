@@ -4,7 +4,13 @@ const cors =require("cors")
 
 const app =express()
 const PORT = process.env.PORT || 4000
-app.use(cors())
+app.use(cors({
+  origin: [
+    "http://localhost:5173", 
+    "https://your-frontend-domain.vercel.app" 
+  ],
+  credentials: true
+}));
 app.use(express.json())
 
 
@@ -102,12 +108,7 @@ app.get("/api/allProperty",async(req,res)=>{
 
 // rating start
 
-app.get("/api/my-reviews/:email", async (req, res) => {
-    const email = req.params.email;
-    const query = { reviewerEmail: email };
-    const result = await reviewCollection.find(query).toArray();
-    res.send(result);
-});
+
 
 
 
