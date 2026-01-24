@@ -15,8 +15,7 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
-// sourav
-// Rddi0hToDvrpCcQ4
+
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@mongopractice.2tbsahv.mongodb.net/?appName=MongoPractice`;
 
@@ -101,7 +100,14 @@ app.get("/api/allProperty",async(req,res)=>{
 })
 // all property end
 
-
+// rating start
+// আপনার ইমেইল অনুযায়ী রিভিউগুলো পাওয়ার রাউট
+app.get("/api/my-reviews/:email", async (req, res) => {
+    const email = req.params.email;
+    const query = { reviewerEmail: email };
+    const result = await reviewCollection.find(query).toArray();
+    res.send(result);
+});
 
 
 
