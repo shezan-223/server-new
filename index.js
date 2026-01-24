@@ -101,7 +101,7 @@ app.get("/api/allProperty",async(req,res)=>{
 // all property end
 
 // rating start
-// আপনার ইমেইল অনুযায়ী রিভিউগুলো পাওয়ার রাউট
+
 app.get("/api/my-reviews/:email", async (req, res) => {
     const email = req.params.email;
     const query = { reviewerEmail: email };
