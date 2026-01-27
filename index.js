@@ -4,12 +4,16 @@ const cors =require("cors")
 
 const app =express()
 const PORT = process.env.PORT || 4000
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 app.use(cors({
   origin: [
     "http://localhost:5173", 
     process.env.CLIENT_URL
   ],
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  optionsSuccessStatus: 200
 }));
 app.use(express.json())
 
@@ -17,12 +21,16 @@ app.use(express.json())
 app.get("/", (req, res) => {
   res.send("Server is running");
 });
+
+app.get ("/",(req,res)=>{
+
+res.send("Real state server is running ")
+})
 // ok
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
-const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@mongopractice.2tbsahv.mongodb.net/?appName=MongoPractice`;
 
 
@@ -42,10 +50,7 @@ const db =client.db("realstate")
 const realstatecollection =db.collection("realstatecollection")
 
 
-app.get ("/",(req,res)=>{
 
-res.send("Real state server is running ")
-})
 
 
 // Add properties
