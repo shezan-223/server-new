@@ -8,7 +8,7 @@ const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 app.use(cors({
   origin: [
     "http://localhost:5173", 
-    process.env.CLIENT_URL
+    "https://clientnew-iota.vercel.app"
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
@@ -78,24 +78,19 @@ app.get("/property/:id",async(req,res)=>{
 
 
 // my property
-app.get("/my-properties",async(req,res)=>{
-  const email =req.query.email
-
-  if(!email){
-    return res.status(400).send({message:"Email is required"})
+app.get("/my-properties", async (req, res) => {
+  try {
+    const email = req.query.email;
+    if (!email) {
+      return res.status(400).send({ message: "Email is required" });
+    }
+    const result = await realstatecollection.find({ email }).toArray();
+    res.send(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: "Server Error" });
   }
-   
-  const result = await realstatecollection.find({email}).toArray()
-  res.send(result)
-if(error){
-  console.error()
-  res.status(401).send({message :"Server Error"})
-  
-}
-} 
-
-
-)
+});
 
 // all property start
 app.get("/api/allProperty",async(req,res)=>{
